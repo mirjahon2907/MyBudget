@@ -1,4 +1,9 @@
 venv
 db.sqlite3
-/__pychache__/
 migrations
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd

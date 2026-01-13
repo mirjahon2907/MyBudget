@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import HomeView, SettingsView, AnalyticsView, Operation_createView, OperationsView
+from .views import DashboardView, SettingsView, AnalyticsView, Operation_createView, OperationsView
 
 
 app_name = 'finance'
 urlpatterns = [
-    path('', HomeView.as_view(), name='home' ),
+    path('', DashboardView.as_view(), name='dashboard' ),
     path('settings/', SettingsView.as_view(), name='settings' ),
     path('analytics/', AnalyticsView.as_view(), name='analytics' ),
     path('operations/', OperationsView.as_view(), name='operations' ),
