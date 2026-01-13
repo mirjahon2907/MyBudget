@@ -1,0 +1,74 @@
+
+{% extends "base.html" %}
+
+{% block title %}Настройки - FinanceWise{% endblock %}
+{% block page_title %}Настройки профиля{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <!-- Left Sidebar Settings -->
+        <div class="md:col-span-1 space-y-2">
+            <button class="w-full text-left p-4 rounded-2xl bg-white border border-slate-100 shadow-sm font-bold text-[#609988] flex items-center gap-3">
+                <i data-lucide="user" class="w-5 h-5"></i> Профиль
+            </button>
+            <button class="w-full text-left p-4 rounded-2xl text-slate-500 font-bold hover:bg-slate-50 flex items-center gap-3 transition-colors">
+                <i data-lucide="lock" class="w-5 h-5"></i> Безопасность
+            </button>
+            <button class="w-full text-left p-4 rounded-2xl text-slate-500 font-bold hover:bg-slate-50 flex items-center gap-3 transition-colors">
+                <i data-lucide="bell" class="w-5 h-5"></i> Уведомления
+            </a>
+            <button class="w-full text-left p-4 rounded-2xl text-slate-500 font-bold hover:bg-slate-50 flex items-center gap-3 transition-colors">
+                <i data-lucide="globe" class="w-5 h-5"></i> Язык и валюта
+            </a>
+            <hr class="my-4 border-slate-100">
+            <button class="w-full text-left p-4 rounded-2xl text-rose-500 font-bold hover:bg-rose-50 flex items-center gap-3 transition-colors">
+                <i data-lucide="log-out" class="w-5 h-5"></i> Выйти
+            </a>
+        </div>
+
+        <!-- Form Content -->
+        <div class="md:col-span-2 space-y-8">
+            <div class="card p-8">
+                <h3 class="text-xl font-black text-slate-800 mb-8 tracking-tight">Личная информация</h3>
+                <form class="space-y-6">
+                    <div class="flex flex-col sm:flex-row gap-6">
+                        <div class="flex-1 space-y-2">
+                            <label class="text-xs font-black text-slate-400 uppercase tracking-widest">Имя</label>
+                            <input type="text" value="Азиз" class="w-full p-3.5 bg-slate-50 border-transparent rounded-2xl text-sm font-bold focus:bg-white focus:ring-2 focus:ring-[#609988]/20 focus:border-[#609988] transition-all">
+                        </div>
+                        <div class="flex-1 space-y-2">
+                            <label class="text-xs font-black text-slate-400 uppercase tracking-widest">Фамилия</label>
+                            <input type="text" value="Каримов" class="w-full p-3.5 bg-slate-50 border-transparent rounded-2xl text-sm font-bold focus:bg-white focus:ring-2 focus:ring-[#609988]/20 focus:border-[#609988] transition-all">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest">Email адрес</label>
+                        <input type="email" value="aziz.k@example.com" class="w-full p-3.5 bg-slate-50 border-transparent rounded-2xl text-sm font-bold focus:bg-white focus:ring-2 focus:ring-[#609988]/20 focus:border-[#609988] transition-all">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest">Номер телефона</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">+998</span>
+                            <input type="text" value="90 123 45 67" class="w-full pl-14 pr-4 py-3.5 bg-slate-50 border-transparent rounded-2xl text-sm font-bold focus:bg-white focus:ring-2 focus:ring-[#609988]/20 focus:border-[#609988] transition-all">
+                        </div>
+                    </div>
+                    <div class="pt-4">
+                        <button type="submit" class="px-8 py-3.5 bg-[#609988] text-white rounded-2xl font-black text-sm shadow-xl shadow-teal-900/10 hover:bg-[#4d7a6d] transition-all">
+                            Сохранить изменения
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card p-8 bg-rose-50 border-rose-100">
+                <h3 class="text-rose-900 font-bold mb-2">Опасная зона</h3>
+                <p class="text-sm text-rose-700 opacity-80 mb-6">После удаления вашего аккаунта вся информация о транзакциях и счетах будет безвозвратно утеряна.</p>
+                <button class="px-6 py-3 bg-white text-rose-600 border border-rose-200 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-rose-600 hover:text-white transition-all">
+                    Удалить аккаунт
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

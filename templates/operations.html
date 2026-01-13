@@ -1,0 +1,177 @@
+
+{% extends "base.html" %}
+
+{% block title %}Все операции - FinanceWise{% endblock %}
+{% block page_title %}Все операции{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+    <!-- Main Operations Feed -->
+    <div class="lg:col-span-8 space-y-8">
+        <!-- Search & Quick Filters -->
+        <div class="space-y-6">
+            <div class="relative group">
+                <i data-lucide="search" class="w-5 h-5 absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#609988] transition-colors"></i>
+                <input type="text" placeholder="Поиск по названию, категории или сумме..." 
+                       class="w-full pl-14 pr-6 py-5 bg-white border-none rounded-[2rem] shadow-sm text-sm font-medium focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
+            </div>
+            
+            <div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2">
+                <button class="px-6 py-2.5 bg-slate-900 text-white rounded-xl text-xs font-black uppercase tracking-widest whitespace-nowrap">Все</button>
+                <button class="px-6 py-2.5 bg-white border border-slate-100 text-slate-500 rounded-xl text-xs font-black uppercase tracking-widest whitespace-nowrap hover:border-[#609988] hover:text-[#609988] transition-all">Еда</button>
+                <button class="px-6 py-2.5 bg-white border border-slate-100 text-slate-500 rounded-xl text-xs font-black uppercase tracking-widest whitespace-nowrap hover:border-[#609988] hover:text-[#609988] transition-all">Транспорт</button>
+                <button class="px-6 py-2.5 bg-white border border-slate-100 text-slate-500 rounded-xl text-xs font-black uppercase tracking-widest whitespace-nowrap hover:border-[#609988] hover:text-[#609988] transition-all">Шоппинг</button>
+                <button class="px-6 py-2.5 bg-white border border-slate-100 text-slate-500 rounded-xl text-xs font-black uppercase tracking-widest whitespace-nowrap hover:border-[#609988] hover:text-[#609988] transition-all">Дом</button>
+            </div>
+        </div>
+
+        <!-- Feed Grouped by Date -->
+        <div class="space-y-10">
+            <!-- Group: Today -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-4 px-2">
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Сегодня</h3>
+                    <div class="h-px flex-1 bg-slate-100"></div>
+                </div>
+                
+                <div class="space-y-3">
+                    <!-- Transaction Item -->
+                    <div class="card p-5 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group">
+                        <div class="flex items-center gap-5">
+                            <div class="w-14 h-14 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center">
+                                <i data-lucide="coffee" class="w-7 h-7"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-black text-slate-800">Starbucks Coffee</h4>
+                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Humo • <span class="text-slate-500">8842</span></p>
+                            </div>
+                        </div>
+                        <div class="text-right space-y-1">
+                            <p class="text-lg font-black text-rose-500">- 45 000 <span class="text-xs font-normal opacity-60">UZS</span></p>
+                            <p class="text-[10px] text-slate-300 font-bold uppercase">14:20</p>
+                        </div>
+                    </div>
+
+                    <div class="card p-5 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group">
+                        <div class="flex items-center gap-5">
+                            <div class="w-14 h-14 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center">
+                                <i data-lucide="arrow-down-left" class="w-7 h-7"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-black text-slate-800">Перевод от Алишера</h4>
+                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Uzcard • <span class="text-slate-500">1109</span></p>
+                            </div>
+                        </div>
+                        <div class="text-right space-y-1">
+                            <p class="text-lg font-black text-emerald-500">+ 250 000 <span class="text-xs font-normal opacity-60">UZS</span></p>
+                            <p class="text-[10px] text-slate-300 font-bold uppercase">09:15</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group: Yesterday -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-4 px-2">
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Вчера</h3>
+                    <div class="h-px flex-1 bg-slate-100"></div>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="card p-5 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group">
+                        <div class="flex items-center gap-5">
+                            <div class="w-14 h-14 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center">
+                                <i data-lucide="shopping-bag" class="w-7 h-7"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-black text-slate-800">Korzinka.uz</h4>
+                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Humo • <span class="text-slate-500">8842</span></p>
+                            </div>
+                        </div>
+                        <div class="text-right space-y-1">
+                            <p class="text-lg font-black text-rose-500">- 312 000 <span class="text-xs font-normal opacity-60">UZS</span></p>
+                            <p class="text-[10px] text-slate-300 font-bold uppercase">18:45</p>
+                        </div>
+                    </div>
+
+                    <div class="card p-5 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group">
+                        <div class="flex items-center gap-5">
+                            <div class="w-14 h-14 bg-indigo-50 text-indigo-500 rounded-2xl flex items-center justify-center">
+                                <i data-lucide="zap" class="w-7 h-7"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-black text-slate-800">Оплата электроэнергии</h4>
+                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Uzcard • <span class="text-slate-500">1109</span></p>
+                            </div>
+                        </div>
+                        <div class="text-right space-y-1">
+                            <p class="text-lg font-black text-rose-500">- 85 000 <span class="text-xs font-normal opacity-60">UZS</span></p>
+                            <p class="text-[10px] text-slate-300 font-bold uppercase">11:30</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More -->
+            <button class="w-full py-5 border-2 border-dashed border-slate-200 rounded-[2rem] text-sm font-black text-slate-400 uppercase tracking-widest hover:bg-slate-50 hover:border-[#609988] hover:text-[#609988] transition-all">
+                Загрузить более ранние
+            </button>
+        </div>
+    </div>
+
+    <!-- Summary Sidebar Widgets -->
+    <div class="lg:col-span-4 space-y-8">
+        <!-- Period Balance Widget -->
+        <div class="card p-8 bg-slate-900 text-white border-none shadow-2xl">
+            <h3 class="text-xs font-black uppercase tracking-[0.2em] opacity-40 mb-6">Движение средств</h3>
+            <div class="space-y-6">
+                <div>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-1">Поступления</p>
+                    <p class="text-2xl font-black">+ 12 500 000 <span class="text-xs font-normal opacity-40">UZS</span></p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-rose-400 mb-1">Расходы</p>
+                    <p class="text-2xl font-black">- 4 230 000 <span class="text-xs font-normal opacity-40">UZS</span></p>
+                </div>
+                <div class="pt-6 border-t border-white/10">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold opacity-60">Чистая прибыль</span>
+                        <span class="text-lg font-black text-[#609988]">+ 8 270 000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card p-8 space-y-6">
+            <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Инструменты</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <button class="flex flex-col items-center gap-3 p-4 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-colors">
+                    <div class="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-[#609988]">
+                        <i data-lucide="file-down" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-black uppercase text-slate-600">Экспорт</span>
+                </button>
+                <button class="flex flex-col items-center gap-3 p-4 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-colors">
+                    <div class="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-[#609988]">
+                        <i data-lucide="filter" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-black uppercase text-slate-600">Фильтр</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Subscription Promo -->
+        <div class="p-8 rounded-[2rem] bg-[#609988]/10 border border-[#609988]/20 flex flex-col items-center text-center">
+            <div class="w-12 h-12 bg-[#609988] rounded-2xl flex items-center justify-center text-white mb-4 shadow-lg shadow-teal-900/10">
+                <i data-lucide="sparkles" class="w-6 h-6"></i>
+            </div>
+            <h4 class="font-black text-slate-800 mb-2">Умная аналитика</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">Получите доступ к AI-прогнозированию ваших трат с подпиской Premium.</p>
+            <button class="mt-6 w-full py-3 bg-slate-900 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-800 transition-all">
+                Узнать больше
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

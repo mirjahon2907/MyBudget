@@ -1,0 +1,100 @@
+
+{% extends "base.html" %}
+
+{% block title %}Мои счета - FinanceWise{% endblock %}
+{% block page_title %}Управление счетами{% endblock %}
+
+{% block content %}
+<div class="space-y-10">
+    <!-- Summary Header -->
+    <div class="flex items-center justify-between">
+        <h2 class="text-xl font-black text-slate-800 tracking-tight">Все активные счета</h2>
+        <button class="px-6 py-3 bg-[#609988] text-white rounded-2xl font-bold text-sm shadow-xl shadow-teal-900/10 hover:bg-[#4d7a6d] transition-colors flex items-center gap-2">
+            <i data-lucide="plus" class="w-4 h-4"></i> Добавить новый
+        </button>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <div class="relative group cursor-pointer">
+            <div class="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-950 rounded-[2.5rem] transform group-hover:scale-[1.02] group-hover:-rotate-1 transition-all shadow-2xl"></div>
+            <div class="relative p-8 text-white h-60 flex flex-col justify-between">
+                <div class="flex justify-between items-start">
+                    <div class="space-y-1">
+                        <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">Humo Platinum</p>
+                        <h3 class="text-xl font-bold">Kapital Bank</h3>
+                    </div>
+                    <i data-lucide="wifi" class="w-6 h-6 rotate-90 opacity-40"></i>
+                </div>
+                <div>
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-40 mb-1">Доступный баланс</p>
+                    <p class="text-2xl font-black">4 500 000 <span class="text-xs font-normal">UZS</span></p>
+                </div>
+                <div class="flex justify-between items-end">
+                    <p class="font-mono text-sm tracking-widest opacity-60">**** 8842</p>
+                    <div class="flex -space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-rose-500/80"></div>
+                        <div class="w-8 h-8 rounded-full bg-amber-500/80"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="relative group cursor-pointer">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#609988] to-[#4d7a6d] rounded-[2.5rem] transform group-hover:scale-[1.02] group-hover:rotate-1 transition-all shadow-xl shadow-teal-900/20"></div>
+            <div class="relative p-8 text-white h-60 flex flex-col justify-between">
+                <div class="flex justify-between items-start">
+                    <div class="space-y-1">
+                        <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">Uzcard Business</p>
+                        <h3 class="text-xl font-bold">Ipak Yuli Bank</h3>
+                    </div>
+                    <i data-lucide="credit-card" class="w-6 h-6 opacity-40"></i>
+                </div>
+                <div>
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-40 mb-1">Доступный баланс</p>
+                    <p class="text-2xl font-black">7 800 000 <span class="text-xs font-normal">UZS</span></p>
+                </div>
+                <div class="flex justify-between items-end">
+                    <p class="font-mono text-sm tracking-widest opacity-60">**** 1109</p>
+                    <span class="px-3 py-1 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest">Основной</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card p-8 border-dashed border-2 bg-slate-50/50 flex flex-col items-center justify-center text-center gap-4 h-60 group cursor-pointer hover:bg-white hover:border-[#609988] transition-all">
+            <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-slate-300 group-hover:text-[#609988] shadow-sm transition-colors">
+                <i data-lucide="plus-circle" class="w-8 h-8"></i>
+            </div>
+            <div>
+                <p class="font-black text-slate-800">Новый кошелек</p>
+                <p class="text-xs text-slate-400 mt-1">Добавьте наличные или <br>другой банковский счет</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Card Activity -->
+    <div class="card p-8">
+        <h2 class="text-lg font-black text-slate-800 mb-6 tracking-tight">Последние действия по счетам</h2>
+        <div class="space-y-6">
+            <div class="flex items-center justify-between group">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center text-slate-500">
+                        <i data-lucide="landmark" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-slate-700">Перевод между счетами</p>
+                        <p class="text-xs text-slate-400 font-medium">С Humo Platinum на Uzcard Business</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-black text-slate-800">1 000 000 UZS</p>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Сегодня, 10:45</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
