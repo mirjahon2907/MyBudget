@@ -21,32 +21,33 @@
             
             <div class="flex-1 text-center md:text-left space-y-2">
                 <div class="flex flex-col md:flex-row md:items-center gap-3">
-                    <h2 class="text-3xl font-black text-slate-800">Азиз Каримов</h2>
+                    <h2 class="text-3xl font-black text-slate-800">{{ user.first_name }}</h2>
                     <span class="inline-flex items-center px-3 py-1 bg-[#609988]/10 text-[#609988] rounded-lg text-xs font-black uppercase tracking-widest">
                         Верифицирован
                     </span>
                 </div>
-                <p class="text-slate-500 font-medium">ID: FW-99283471 • Клиент с 2022 года</p>
+                <p class="text-slate-500 font-medium">Клиент с {{user.date_joined.year}} года</p>
                 <div class="flex flex-wrap justify-center md:justify-start gap-4 pt-2">
                     <div class="flex items-center gap-2 text-xs font-bold text-slate-400">
                         <i data-lucide="mail" class="w-4 h-4 text-[#609988]"></i>
-                        aziz.k@example.com
+                        {{user.email}}
                     </div>
                     <div class="flex items-center gap-2 text-xs font-bold text-slate-400">
                         <i data-lucide="phone" class="w-4 h-4 text-[#609988]"></i>
-                        +998 90 123 45 67
+                        {{user.phone_number}}
                     </div>
                 </div>
             </div>
             
-            <div class="flex flex-col gap-3">
+            <a href="{% url 'accounts:profile_edit' request.user.username %}" class="flex flex-col gap-3">
                 <button class="px-6 py-3 bg-white border border-slate-200 rounded-2xl font-bold text-sm text-slate-700 hover:bg-slate-50 transition-all flex items-center justify-center gap-2">
                     <i data-lucide="edit-3" class="w-4 h-4"></i> Редактировать
                 </button>
-                <button class="px-6 py-3 bg-[#609988] text-white rounded-2xl font-bold text-sm shadow-lg shadow-teal-900/10 hover:bg-[#4d7a6d] transition-all">
-                    Поделиться QR
-                </button>
-            </div>
+            </a>
+            <a href="{% url 'accounts:qr_code' request.user.username %}"
+                    class="px-6 py-3 bg-[#609988] text-white rounded-2xl font-bold text-sm shadow-lg shadow-teal-900/10 hover:bg-[#4d7a6d] transition-all">
+                Поделиться QR
+            </a>
         </div>
     </div>
 
@@ -62,19 +63,19 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12">
                     <div class="space-y-1">
                         <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Полное имя</p>
-                        <p class="font-bold text-slate-700">Каримов Азиз Сабирович</p>
+                        <p class="font-bold text-slate-700">{{user.first_name}} {{user.last_name}}</p>
                     </div>
                     <div class="space-y-1">
                         <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Дата рождения</p>
-                        <p class="font-bold text-slate-700">14 Марта 1992 (31 год)</p>
+                        <p class="font-bold text-slate-700">{{ user.birth_date }}</p>
                     </div>
                     <div class="space-y-1">
                         <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Гражданство</p>
-                        <p class="font-bold text-slate-700">Республика Узбекистан</p>
+                        <p class="font-bold text-slate-700">{{ user.citizenship }}</p>
                     </div>
                     <div class="space-y-1">
                         <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Пол</p>
-                        <p class="font-bold text-slate-700">Мужской</p>
+                        <p class="font-bold text-slate-700">{{ user.gender }}</p>
                     </div>
                 </div>
 
@@ -104,7 +105,7 @@
                         <i data-lucide="map-pin" class="w-5 h-5"></i>
                     </div>
                     <div class="space-y-1">
-                        <p class="text-sm font-bold text-slate-700">Ташкент, Мирзо-Улугбекский район</p>
+                        <p class="text-sm font-bold text-slate-700">{{ user.address }}</p>
                         <p class="text-xs text-slate-400 leading-relaxed">ул. Мустакиллик, дом 42, квартира 15</p>
                     </div>
                 </div>

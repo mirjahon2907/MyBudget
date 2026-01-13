@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - FinanceWise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .auth-gradient { background: radial-gradient(circle at bottom left, #f0fdfa 0%, #f8fafc 100%); }
+    </style>
+</head>
+<body class="auth-gradient min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-md w-full">
+        <!-- Logo -->
+        <div class="flex items-center justify-center gap-3 mb-10">
+            <div class="w-12 h-12 bg-[#609988] rounded-2xl flex items-center justify-center text-white shadow-xl shadow-teal-900/20">
+                <i data-lucide="wallet" class="w-7 h-7"></i>
+            </div>
+            <span class="text-3xl font-black text-slate-800 tracking-tight">FinanceWise</span>
+        </div>
+
+        <div class="bg-white rounded-[3rem] p-10 shadow-2xl shadow-slate-200/50 border border-slate-100">
+            <div class="text-center mb-10">
+                <h1 class="text-2xl font-black text-slate-800">Создать аккаунт</h1>
+                <p class="text-slate-400 text-sm mt-2 font-medium">Начните свой путь к финансовой свободе</p>
+            </div>
+
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Username</label>
+                    <div class="relative group">
+                        <i data-lucide="mail" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#609988] transition-colors"></i>
+                        <input type="username" name="username" placeholder="username" 
+                               class="w-full pl-12 pr-4 py-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Придумайте пароль</label>
+                    <div class="relative group">
+                        <i data-lucide="lock" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#609988] transition-colors"></i>
+                        <input type="password" name="password1" placeholder="••••••••" 
+                               class="w-full pl-12 pr-12 py-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
+                    </div>
+                    <p class="text-[9px] text-slate-400 font-bold uppercase px-1">Минимум 8 символов, 1 цифра</p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Подтвердите пароль</label>
+                    <div class="relative group">
+                        <i data-lucide="lock" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#609988] transition-colors"></i>
+                        <input type="password" name="password2" placeholder="••••••••" 
+                               class="w-full pl-12 pr-12 py-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
+                    </div>
+                    <p class="text-[9px] text-slate-400 font-bold uppercase px-1">Минимум 8 символов, 1 цифра</p>
+                </div>
+
+                <div class="flex items-start gap-3 px-1 py-2">
+                    <input type="checkbox" id="terms" class="mt-1 w-4 h-4 rounded-lg border-slate-200 text-[#609988] focus:ring-[#609988]/20">
+                    <label for="terms" class="text-xs text-slate-500 font-medium">
+                        Я согласен с <a href="#" class="text-[#609988] font-bold">Условиями использования</a> и <a href="#" class="text-[#609988] font-bold">Политикой конфиденциальности</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="w-full py-5 bg-[#609988] text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-teal-900/20 hover:bg-[#4d7a6d] transition-all">
+                    Зарегистрироваться
+                </button>
+            </form>
+
+            <div class="relative my-10">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-slate-100"></div>
+                </div>
+                <div class="relative flex justify-center text-[10px] font-black uppercase tracking-widest">
+                    <span class="bg-white px-4 text-slate-300">уже есть аккаунт?</span>
+                </div>
+            </div>
+
+            <a href="{% url 'accounts:login' %}" class="block w-full text-center py-4 bg-slate-50 text-slate-600 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 transition-all">
+                Войти в существующий
+            </a>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

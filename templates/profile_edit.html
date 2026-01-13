@@ -1,0 +1,134 @@
+
+{% extends "base.html" %}
+
+{% block title %}Редактировать профиль - MyBudget{% endblock %}
+{% block page_title %}Редактирование профиля{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+    <!-- Header with Back Button -->
+    <div class="mb-8 flex items-center justify-between">
+        <a href="{% url 'accounts:profile' request.user.username %}" class="inline-flex items-center gap-2 text-sm font-black text-slate-400 uppercase tracking-widest hover:text-[#609988] transition-colors">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            Назад к профилю
+        </a>
+        <div class="flex gap-3">
+            <button type="submit" form="profile-form" class="px-6 py-2.5 bg-[#609988] text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-900/10 hover:bg-[#4d7a6d] transition-all">
+                Сохранить
+            </button>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <!-- Avatar Section -->
+        <div class="lg:col-span-1">
+            <div class="card p-8 text-center flex flex-col items-center">
+                <div class="relative group cursor-pointer mb-6">
+                    <img src="https://ui-avatars.com/api/?name=Aziz+Karimov&background=609988&color=fff&bold=true&size=256" 
+                         class="w-40 h-40 rounded-[3rem] shadow-xl border-4 border-white group-hover:opacity-80 transition-opacity">
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 rounded-[3rem] transition-opacity">
+                        <i data-lucide="camera" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <input type="file" class="hidden" id="avatar-upload">
+                </div>
+                <h3 class="font-black text-slate-800 text-lg"></h3>
+                <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">Основное фото</p>
+                
+                <div class="mt-8 w-full space-y-3">
+                    <button type="button" onclick="document.getElementById('avatar-upload').click()" class="w-full py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 hover:bg-white hover:border-[#609988] hover:text-[#609988] transition-all">
+                        Загрузить новое фото
+                    </button>
+                    <button type="button" class="w-full py-3 text-xs font-bold text-rose-500 hover:bg-rose-50 rounded-xl transition-all">
+                        Удалить фото
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile Status Card -->
+            <div class="card p-6 mt-8 bg-[#609988]/5 border-[#609988]/10">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-[#609988] rounded-xl flex items-center justify-center text-white">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-slate-800">Аккаунт защищен</p>
+                        <p class="text-[10px] text-[#609988] font-black uppercase tracking-widest">Верифицирован</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="lg:col-span-2">
+            <div class="card p-10">
+                <form method="post" id="profile-form" class="space-y-8">
+                    {% csrf_token %}
+                    <!-- General Info -->
+                    <div class="space-y-6">
+                        <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] border-b border-slate-50 pb-4">Основные данные</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Имя</label>
+                                <input type="text" name="first_name" value="Азиз" class="w-full p-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Фамилия</label>
+                                <input type="text" name="last_name" value="Каримов" class="w-full p-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Био / О себе</label>
+                            <textarea name="bio" rows="3" class="w-full p-4 bg-slate-50 border-none rounded-2xl text-sm font-medium text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none resize-none">Я учусь управлять своим бюджетом с MyBudget!</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Contact Details -->
+                    <div class="space-y-6">
+                        <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] border-b border-slate-50 pb-4">Контакты</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Email адрес</label>
+                                <div class="relative group">
+                                    <i data-lucide="mail" class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"></i>
+                                    <input type="email" name="email" value="aziz.k@example.com" class="w-full pl-12 pr-4 py-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Телефон</label>
+                                <div class="relative group">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-300">+998</span>
+                                    <input type="text" name="phone_number" value="90 123 45 67" class="w-full pl-14 pr-4 py-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="space-y-6">
+                        <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] border-b border-slate-50 pb-4">Местоположение</h4>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Город проживания</label>
+                            <div class="relative group">
+                                <i data-lucide="map-pin" class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"></i>
+                                <input type="text" name="citizenship" value="Ташкент, Узбекистан" class="w-full pl-12 pr-4 py-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Public Profile Toggle -->
+                    <div class="pt-6 border-t border-slate-50 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">Публичный профиль</p>
+                            <p class="text-[10px] text-slate-400 font-medium">Разрешить другим пользователям видеть ваш профиль</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" value="" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#609988]"></div>
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
