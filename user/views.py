@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
+from django.views.decorators.http import require_POST
 from io import BytesIO
 import qrcode
 import base64
@@ -11,6 +13,10 @@ from .forms import SignupForm, UpdateProfileForm
 from .models import CustomUser
 
 
+@require_POST
+def logout_view(request):
+    logout(request)
+    return redirect("user:login") 
 
 class ProfileView(View):
     def get(self,request,username):
@@ -46,7 +52,7 @@ class LoginView(View):
             print("Вы успешно вошли в систему")
             login(request, user)
             messages.success(request, "Вы успешно вошли в систему.")
-            return redirect('finance:dashboard')  # o‘zingizga kerakli sahifa
+            return redirect('finance:dashboard')
         else:
             messages.error(request, "Неверный логин или пароль.")
             return render(request, 'registration/login.html')
@@ -102,3 +108,12 @@ class Qr_codeView(View):
         }
         return render(request, 'qr_code.html', context)
     
+
+class TermsView(View):
+    def get(self,request):
+        return render(request,'registration/terms.html')
+    
+
+class PrivacyView(View):
+    def get(self,request):
+        return render(request,'registration/privacy.html')

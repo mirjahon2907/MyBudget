@@ -4,6 +4,9 @@ from .models import CustomUser
 
 
 class SignupForm(UserCreationForm):
+    agree = forms.BooleanField(required=True, error_messages={"required": "You must agree to the Terms and Privacy Policy."},)
+
+    
     class Meta:
         model = CustomUser
         fields = ('username','first_name', 'email')
