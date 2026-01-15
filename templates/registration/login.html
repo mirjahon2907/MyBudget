@@ -43,7 +43,7 @@
                 <div class="space-y-2">
                     <div class="flex justify-between items-center px-1">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Пароль</label>
-                        <a href="{% url 'accounts:forgotpassword' %}" class="text-[10px] font-black text-[#609988] uppercase tracking-widest hover:underline">Забыли?</a>
+                        <a href="{% url 'user:forgotpassword' %}" class="text-[10px] font-black text-[#609988] uppercase tracking-widest hover:underline">Забыли?</a>
                     </div>
                     <div class="relative group">
                         <i data-lucide="lock" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#609988] transition-colors"></i>
@@ -87,7 +87,7 @@
         </div>
 
         <p class="text-center mt-10 text-sm font-medium text-slate-400">
-            Нет аккаунта? <a href="{% url 'accounts:signup' %}" class="text-[#609988] font-black hover:underline">Создать сейчас</a>
+            Нет аккаунта? <a href="{% url 'user:signup' %}" class="text-[#609988] font-black hover:underline">Создать сейчас</a>
         </p>
     </div>
 

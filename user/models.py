@@ -7,11 +7,10 @@ class Currency(models.TextChoices):
     USD = 'USD', 'USD'
     RUB = 'RUB', 'RUB'
 
+
 class Gender(models.TextChoices):
     MALE = 'MALE', 'MALE'
-    FEMALE = 'FEMALE', 'FEMALE'
-    OTHER = "Other / Prefer not to say", "Other / Prefer not to say" 
-
+    FEMALE = 'FEMALE', 'FEMALE' 
 
 
 class CustomUser(AbstractUser):
@@ -29,8 +28,6 @@ class CustomUser(AbstractUser):
     gender = models.CharField(choices=Gender.choices)
     passport = models.CharField(max_length=9,null=True, blank=True)
     address = models.CharField(max_length=100,null=True, blank=True)
-
-
 
 
     def __str__(self):

@@ -9,6 +9,11 @@ class DashboardView(View):
         transactions = Transactions.objects.all()
         categories = Category.objects.all()
         return render(request,'dashboard.html', {"wallets":wallets, 'transactions':transactions,'category':categories})
+    
+
+class AccountsView(View):
+    def get(self,request):
+        return render(request,'accounts.html')
 
 
 class SettingsView(View):

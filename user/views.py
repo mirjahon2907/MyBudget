@@ -12,11 +12,6 @@ from .models import CustomUser
 
 
 
-class AccountsView(View):
-    def get(self,request):
-        return render(request,'accounts.html')
-
-
 class ProfileView(View):
     def get(self,request,username):
         user = get_object_or_404(CustomUser, username=username)
@@ -33,7 +28,7 @@ class ProfileEditView(View):
         user = get_object_or_404(CustomUser, username=username)
         if form.is_valid():
             form.save()
-            return redirect('accounts:profile', request.user)
+            return redirect('user:profile', request.user)
         return render(request,'profile_edit.html',{'custom_user':user})
 
 
@@ -67,7 +62,7 @@ class SignupView(View):
         if form.is_valid():
             form.save()
             messages.success(request, "Account created successfully.")
-            return redirect('accounts:login')
+            return redirect('user:login')
         
         return render(request, 'registration/signup.html', {"form":form})
     
@@ -76,7 +71,6 @@ class ForgotPasswordView(View):
     def get(self, request):
         return render(request,'registration/forgotpassword.html')
     
-
 
 class Qr_codeView(View):
     def get(self, request, username=None):
