@@ -21,7 +21,7 @@
             <div class="bg-slate-900 p-10 text-center relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-40 h-40 bg-rose-500/10 blur-[60px] rounded-full -mr-20 -mt-20"></div>
                 <div class="relative space-y-4">
-                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Введите сумму расхода</label>
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Введите сумму дохода</label>
                     <div class="flex items-center justify-center gap-4">
                         <input type="number" name="amount" min="0" step="1000" placeholder="0" 
                             class="w-full max-w-[320px] text-6xl font-black text-center text-white bg-transparent border-none outline-none focus:ring-0 placeholder:text-slate-700" 
@@ -34,7 +34,7 @@
             <!-- Account & Date Row -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="space-y-3">
-                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Списать со счета</label>
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Поступлениу в счет</label>
                     <div class="relative group">
                         <select name="wallet" class="w-full appearance-none bg-slate-50 border-none p-4 pr-12 rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-rose-500/10 transition-all outline-none">
                             {% for account in accounts %}
@@ -55,7 +55,7 @@
                 <input type="hidden" name="category" id="category-hidden">
                 <div class="grid grid-cols-3 sm:grid-cols-6 gap-3">
                     {% for cat in category %}
-                        {% if cat.type == 'expense' %}
+                        {% if cat.type == 'income' %}
                         <button type="button" data-cat-id="{{ cat.id }}" onclick="selectCat(this)" class="cat-btn flex flex-col items-center gap-2 p-4 rounded-2xl bg-white border-2 border-[#609988] text-[#609988] transition-all">
                             <i data-lucide="{{cat.icon}}" class="w-6 h-6"></i>
                             <span class="text-[9px] font-black uppercase">{{ cat.name }}</span>
@@ -67,53 +67,47 @@
             <!-- Actions -->
             <div class="pt-6 flex flex-col sm:flex-row gap-4">
                 <button type="submit" class="flex-1 bg-rose-500 text-white py-5 rounded-[2rem] font-black text-sm uppercase tracking-widest shadow-xl shadow-rose-900/20 hover:bg-rose-600 transition-all">
-                    Сохранить расход
+                    Сохранить доход
                 </button>
-                <a href="{% url 'finance:dashboard' %}">
-                    <button type="button" class="px-12 py-5 bg-slate-100 text-slate-500 rounded-[2rem] font-black text-sm uppercase tracking-widest hover:bg-slate-200 transition-all">
-                        Отмена
-                    </button>
-                </a>
+                <button type="button" class="px-12 py-5 bg-slate-100 text-slate-500 rounded-[2rem] font-black text-sm uppercase tracking-widest hover:bg-slate-200 transition-all">
+                    Отмена
+                </button>
             </div>
         </form>
-    </div>
-
-    <!-- Smart Recommendations -->
-    <div class="mt-10 p-8 bg-amber-50 border border-amber-100 rounded-[2.5rem] flex items-center gap-6">
-        <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-amber-600 shrink-0">
-            <i data-lucide="lightbulb" class="w-7 h-7"></i>
-        </div>
-        <div>
-            <h4 class="font-bold text-amber-900">Вы знали?</h4>
-            <p class="text-xs text-amber-800/80 leading-relaxed mt-1">
-                По средам вы обычно тратите на 20% больше в категории "Еда". Старайтесь следить за лимитом сегодня!
-            </p>
-        </div>
     </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-  function selectCat(btn) {
-      document.querySelectorAll('.cat-btn').forEach(b => {
-          b.classList.remove('border-[#609988]', 'text-[#609988]', 'bg-white');
-          b.classList.add('bg-slate-50', 'border-transparent', 'text-slate-400');
-      });
+    function selectCat(btn) {
+        document.querySelectorAll('.cat-btn').forEach(b => {
+            b.classList.remove('border-[#609988]', 'text-[#609988]', 'bg-white');
+            b.classList.add('bg-slate-50', 'border-transparent', 'text-slate-400');
+        });
 
-      btn.classList.add('border-[#609988]', 'text-[#609988]', 'bg-white');
-      btn.classList.remove('bg-slate-50', 'border-transparent', 'text-slate-400');
+        btn.classList.add('border-[#609988]', 'text-[#609988]', 'bg-white');
+        btn.classList.remove('bg-slate-50', 'border-transparent', 'text-slate-400');
 
-      // ✅ category id ni hidden inputga yozamiz
-      document.getElementById("category-hidden").value = btn.dataset.catId;
-  }
-  function validateCat(){
-    const v = document.getElementById("category-hidden").value;
-    if(!v){
-        alert("Категория не выбрана!");
-        return false;
+        // ✅ category id ni hidden inputga yozamiz
+        document.getElementById("category-hidden").value = btn.dataset.catId;
     }
-    return true;
+  
+    function validateCat(){
+        const v = document.getElementById("category-hidden").value;
+        if(!v){
+            alert("Категория не выбрана!");
+            return false;
+        }
+        return true;
     }
+
+    const amountInput = document.getElementById("expense-amount");
+
+    amountInput.addEventListener("input", () => {
+        if (amountInput.value < 0) {
+            amountInput.value = "";
+        }
+    });
 </script>
 {% endblock %}

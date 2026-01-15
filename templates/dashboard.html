@@ -9,16 +9,27 @@
             <h1 class="text-3xl font-black text-slate-800 tracking-tight">Рабочий стол</h1>
             <p class="text-slate-500 mt-1">Отслеживайте свои финансы в реальном времени</p>
         </div>
-        <div class="flex items-center gap-3">
-            <button class="bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors flex items-center gap-2">
-                <i data-lucide="download" class="w-4 h-4"></i> Выгрузить отчет
-            </button>
-            <a href="{% url 'finance:add-expense' %}">
-                <button class="bg-[#609988] px-4 py-2 rounded-xl text-sm font-semibold text-white hover:bg-[#4d7a6d] transition-colors flex items-center gap-2 shadow-lg shadow-teal-900/10">
-                    <i data-lucide="plus" class="w-4 h-4"></i> Добавить расход
-                </button>
-            </a>
-        </div>
+            <div class="flex items-center gap-3">
+                <!-- Добавить доход -->
+                <a href="{% url 'finance:add-income' %}">
+                    <button class="bg-emerald-500 px-4 py-2 rounded-xl text-sm font-semibold text-white
+                                hover:bg-emerald-600 transition-colors flex items-center gap-2
+                                shadow-lg shadow-emerald-900/20">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        Добавить доход
+                    </button>
+                </a>
+
+                <!-- Добавить расход -->
+                <a href="{% url 'finance:add-expense' %}">
+                    <button class="bg-rose-500 px-4 py-2 rounded-xl text-sm font-semibold text-white
+                                hover:bg-rose-600 transition-colors flex items-center gap-2
+                                shadow-lg shadow-rose-900/20">
+                        <i data-lucide="minus" class="w-4 h-4"></i>
+                        Добавить расход
+                    </button>
+                </a>
+            </div>
     </div>
 
     <!-- Stats Row -->
@@ -29,7 +40,7 @@
             </div>
             <div>
                 <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Общий доход</p>
-                <p class="text-xl font-bold text-slate-800">150 000 UZS</p>
+                <p class="text-xl font-bold text-slate-800">{{income}} UZS</p>
             </div>
         </div>
         <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
@@ -38,7 +49,7 @@
             </div>
             <div>
                 <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Общий расход</p>
-                <p class="text-xl font-bold text-slate-800">45 000 UZS</p>
+                <p class="text-xl font-bold text-slate-800">{{expense}} UZS</p>
             </div>
         </div>
         <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
@@ -47,7 +58,7 @@
             </div>
             <div>
                 <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Доступно</p>
-                <p class="text-xl font-bold text-slate-800">105 000 UZS</p>
+                <p class="text-xl font-bold text-slate-800">{{profit}} UZS</p>
             </div>
         </div>
     </div>
@@ -59,63 +70,69 @@
             <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm relative overflow-hidden">
                 <div class="flex items-center justify-between mb-8">
                     <h2 class="text-xl font-bold text-slate-800">Анализ расходов</h2>
-                    <div class="flex bg-slate-100 p-1 rounded-xl">
-                        <button class="px-4 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-800 shadow-sm">День</button>
-                        <button class="px-4 py-1.5 rounded-lg text-xs font-bold text-slate-500 hover:text-slate-700">Неделя</button>
-                        <button class="px-4 py-1.5 rounded-lg text-xs font-bold text-slate-500 hover:text-slate-700">Месяц</button>
+                    {% with p=request.GET.period|default:"day" %}
+                    <div class="flex gap-2">
+                    <a href="?period=day"
+                        class="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest
+                                {% if p == 'day' %}bg-slate-900 text-white{% else %}bg-white border border-slate-100 text-slate-500{% endif %}">
+                        1 день
+                    </a>
+
+                    <a href="?period=week"
+                        class="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest
+                                {% if p == 'week' %}bg-slate-900 text-white{% else %}bg-white border border-slate-100 text-slate-500{% endif %}">
+                        1 неделя
+                    </a>
+
+                    <a href="?period=month"
+                        class="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest
+                                {% if p == 'month' %}bg-slate-900 text-white{% else %}bg-white border border-slate-100 text-slate-500{% endif %}">
+                        1 месяц
+                    </a>
                     </div>
+                    {% endwith %}
                 </div>
 
                 <div class="flex flex-col md:flex-row items-center gap-12">
                     <div class="relative w-full max-w-[280px]">
                         <svg viewBox="0 0 36 36" class="w-full h-full transform -rotate-90">
-                            <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#f1f5f9" stroke-width="3"></circle>
-                            <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#FACC15" stroke-width="3" stroke-dasharray="56 100"></circle>
-                            <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#60A5FA" stroke-width="3" stroke-dasharray="33 100" stroke-dashoffset="-56"></circle>
-                            <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#3B82F6" stroke-width="3" stroke-dasharray="11 100" stroke-dashoffset="-89"></circle>
-                        </svg>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center">
-                            <span class="text-3xl font-black text-slate-800">45 000</span>
-                            <span class="text-xs text-slate-400 font-bold uppercase tracking-widest">UZS</span>
-                        </div>
-                    </div>
+                        <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#f1f5f9" stroke-width="3"></circle>
 
-                    <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                            <div class="flex items-center gap-2 mb-1">
-                                <div class="w-2 h-2 rounded-full bg-yellow-400"></div>
-                                <span class="text-xs font-bold text-slate-500 uppercase">Кафе</span>
-                            </div>
-                            <p class="text-lg font-bold text-slate-800">25 000 UZS</p>
-                        </div>
-                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                            <div class="flex items-center gap-2 mb-1">
-                                <div class="w-2 h-2 rounded-full bg-blue-400"></div>
-                                <span class="text-xs font-bold text-slate-500 uppercase">Продукты</span>
-                            </div>
-                            <p class="text-lg font-bold text-slate-800">15 000 UZS</p>
-                        </div>
-                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                            <div class="flex items-center gap-2 mb-1">
-                                <div class="w-2 h-2 rounded-full bg-blue-600"></div>
-                                <span class="text-xs font-bold text-slate-500 uppercase">Транспорт</span>
-                            </div>
-                            <p class="text-lg font-bold text-slate-800">5 000 UZS</p>
-                        </div>
-                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center border-dashed">
-                             <span class="text-sm font-semibold text-slate-400 cursor-pointer hover:text-slate-600">+ Другие категории</span>
-                        </div>
+                        {% for s in segments %}
+                            <circle cx="18" cy="18" r="15.9"
+                                    fill="transparent"
+                                    stroke-width="3"
+                                    stroke-dasharray="{{ s.dasharray }}"
+                                    stroke-dashoffset="{{ s.dashoffset }}"
+                                    class="{% if forloop.first %}text-yellow-400{% elif forloop.counter == 2 %}text-blue-400{% else %}text-blue-600{% endif %}"
+                                    stroke="currentColor"></circle>
+                        {% endfor %}
+                        </svg>
+
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                        <span class="text-3xl font-black text-slate-800">{{ total_sum }}</span>
+                        <span class="text-xs text-slate-400 font-bold uppercase tracking-widest">UZS</span>
+                        </div>                    
                     </div>
-                </div>
-            </div>
-            
-            <!-- Secondary Chart Placeholder -->
-            <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
-                <h2 class="text-xl font-bold text-slate-800 mb-6">Динамика расходов</h2>
-                <div class="h-48 bg-slate-50 rounded-2xl flex items-end justify-between px-8 pb-4">
-                    {% for i in "1234567" %}
-                    <div class="w-12 bg-teal-100 rounded-t-lg hover:bg-teal-200 transition-colors" style="height:  cycle '40%' '65%' '45%' '80%' '60%' '90%' '55%' ;"></div>
+                    <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                    {% for s in segments %}
+                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <div class="flex items-center gap-2 mb-1">
+                            <div class="w-2 h-2 rounded-full
+                                {% if forloop.first %}bg-yellow-400{% elif forloop.counter == 2 %}bg-blue-400{% else %}bg-blue-600{% endif %}">
+                            </div>
+                            <span class="text-xs font-bold text-slate-500 uppercase">{{ s.name }}</span>
+                        </div>
+                        <p class="text-lg font-bold text-slate-800">{{ s.amount }} UZS</p>
+                        </div>
                     {% endfor %}
+
+                    {% if other_sum > 0 %}
+                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center border-dashed">
+                        <span class="text-sm font-semibold text-slate-400">+ Другие категории ({{ other_sum }} UZS)</span>
+                        </div>
+                    {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,54 +146,19 @@
                 </div>
                 
                 <div class="space-y-4">
-                    {% if categories %}
-                        {% for cat in categories %}
-                        <div class="flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-all cursor-pointer group">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg shadow-teal-900/10">
+                        {% for cat in segments_full %}
+                        <!-- Static Demo Items -->
+                        <div class="flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-all cursor-pointer">
+                            <div class="w-10 h-10 rounded-xl bg-yellow-400 flex items-center justify-center text-white">
                                 <i data-lucide="{{ cat.icon }}" class="w-5 h-5"></i>
                             </div>
                             <div class="flex-1">
                                 <p class="text-sm font-bold text-slate-800">{{ cat.name }}</p>
-                                <p class="text-xs text-slate-400">{{ cat.percentage }}% от суммы</p>
+                                <p class="text-xs text-slate-400">{{ cat.percent }}% от суммы</p>
                             </div>
-                            <div class="text-right">
-                                <p class="text-sm font-black text-slate-800">{{ cat.amount }}</p>
-                            </div>
+                            <div class="text-right font-black text-slate-800 text-sm">{{ cat.amount }}</div>
                         </div>
                         {% endfor %}
-                    {% else %}
-                        <!-- Static Demo Items -->
-                        <div class="flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-all cursor-pointer">
-                            <div class="w-10 h-10 rounded-xl bg-yellow-400 flex items-center justify-center text-white">
-                                <i data-lucide="utensils" class="w-5 h-5"></i>
-                            </div>
-                            <div class="flex-1">
-                                <p class="text-sm font-bold text-slate-800">Кафе и рестораны</p>
-                                <p class="text-xs text-slate-400">56% от суммы</p>
-                            </div>
-                            <div class="text-right font-black text-slate-800 text-sm">25 000</div>
-                        </div>
-                        <div class="flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-all cursor-pointer">
-                            <div class="w-10 h-10 rounded-xl bg-blue-400 flex items-center justify-center text-white">
-                                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                            </div>
-                            <div class="flex-1">
-                                <p class="text-sm font-bold text-slate-800">Продукты</p>
-                                <p class="text-xs text-slate-400">33% от суммы</p>
-                            </div>
-                            <div class="text-right font-black text-slate-800 text-sm">15 000</div>
-                        </div>
-                        <div class="flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-all cursor-pointer">
-                            <div class="w-10 h-10 rounded-xl bg-indigo-500 flex items-center justify-center text-white">
-                                <i data-lucide="bus" class="w-5 h-5"></i>
-                            </div>
-                            <div class="flex-1">
-                                <p class="text-sm font-bold text-slate-800">Транспорт</p>
-                                <p class="text-xs text-slate-400">11% от суммы</p>
-                            </div>
-                            <div class="text-right font-black text-slate-800 text-sm">5 000</div>
-                        </div>
-                    {% endif %}
                 </div>
             </div>
 
