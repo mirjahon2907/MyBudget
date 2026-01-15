@@ -3,8 +3,16 @@ from user.models import CustomUser
 
 
 class Wallet(models.Model):
+    TYPE_CHOICE = [
+        ('cash','cash'),
+        ('card','card'),
+        ('e-wallet','e-wallet'),
+        ('Saving','Saving'),
+    ]
+
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='wallets')
-    name = models.CharField(max_length=50)  # Cash, Card
+    name = models.CharField(max_length=50)
+    type = models.CharField(max_length=10,choices=TYPE_CHOICE)
     balance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
 
     
