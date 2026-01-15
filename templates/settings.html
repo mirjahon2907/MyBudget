@@ -22,9 +22,12 @@
                 <i data-lucide="globe" class="w-5 h-5"></i> Язык и валюта
             </a>
             <hr class="my-4 border-slate-100">
-            <button class="w-full text-left p-4 rounded-2xl text-rose-500 font-bold hover:bg-rose-50 flex items-center gap-3 transition-colors">
-                <i data-lucide="log-out" class="w-5 h-5"></i> Выйти
-            </a>
+            <form method="post" action="{% url 'user:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="w-full text-left p-4 rounded-2xl text-rose-500 font-bold hover:bg-rose-50 flex items-center gap-3 transition-colors">
+                    <i data-lucide="log-out" class="w-5 h-5"></i> Выйти
+                </button>
+            </form>
         </div>
 
         <!-- Form Content -->

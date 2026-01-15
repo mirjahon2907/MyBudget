@@ -15,13 +15,20 @@
                 <input type="text" placeholder="Поиск по названию, категории или сумме..." 
                        class="w-full pl-14 pr-6 py-5 bg-white border-none rounded-[2rem] shadow-sm text-sm font-medium focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
             </div>
-            
             <div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2">
-                <button class="px-6 py-2.5 bg-slate-900 text-white rounded-xl text-xs font-black uppercase tracking-widest whitespace-nowrap">Все</button>
-                <button class="px-6 py-2.5 bg-white border border-slate-100 text-slate-500 rounded-xl text-xs font-black uppercase tracking-widest whitespace-nowrap hover:border-[#609988] hover:text-[#609988] transition-all">Еда</button>
-                <button class="px-6 py-2.5 bg-white border border-slate-100 text-slate-500 rounded-xl text-xs font-black uppercase tracking-widest whitespace-nowrap hover:border-[#609988] hover:text-[#609988] transition-all">Транспорт</button>
-                <button class="px-6 py-2.5 bg-white border border-slate-100 text-slate-500 rounded-xl text-xs font-black uppercase tracking-widest whitespace-nowrap hover:border-[#609988] hover:text-[#609988] transition-all">Шоппинг</button>
-                <button class="px-6 py-2.5 bg-white border border-slate-100 text-slate-500 rounded-xl text-xs font-black uppercase tracking-widest whitespace-nowrap hover:border-[#609988] hover:text-[#609988] transition-all">Дом</button>
+                <a href="{% url 'finance:operations' %}"
+                class="px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest whitespace-nowrap
+                        {% if not active_cat %}bg-slate-900 text-white{% else %}bg-white border border-slate-100 text-slate-500 hover:border-[#609988] hover:text-[#609988]{% endif %}">
+                    Все
+                </a>
+
+                {% for cat in categories %}
+                    <a href="{% url 'finance:operations' %}?cat={{ cat.id }}"
+                    class="px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest whitespace-nowrap
+                            {% if active_cat == cat.id %}bg-slate-900 text-white{% else %}bg-white border border-slate-100 text-slate-500 hover:border-[#609988] hover:text-[#609988]{% endif %}">
+                        {{ cat.name }}
+                    </a>
+                {% endfor %}
             </div>
         </div>
 
@@ -35,82 +42,91 @@
                 </div>
                 
                 <div class="space-y-3">
-                    <!-- Transaction Item -->
-                    <div class="card p-5 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group">
-                        <div class="flex items-center gap-5">
-                            <div class="w-14 h-14 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center">
-                                <i data-lucide="coffee" class="w-7 h-7"></i>
+                {% for operation in operations %}
+                    {% if operation.created_at|date:"Y-m-d" == today|date:"Y-m-d" %}
+                        {% if operation.type == 'expense'%}
+                        <div class="card p-5 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group">
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center">
+                                    <i data-lucide="coffee" class="w-7 h-7"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-slate-800">{{ operation.category }}</h4>
+                                    <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">{{ operation.wallet }}<span class="text-slate-500"></span></p>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="font-black text-slate-800">Starbucks Coffee</h4>
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Humo • <span class="text-slate-500">8842</span></p>
-                            </div>
-                        </div>
-                        <div class="text-right space-y-1">
-                            <p class="text-lg font-black text-rose-500">- 45 000 <span class="text-xs font-normal opacity-60">UZS</span></p>
-                            <p class="text-[10px] text-slate-300 font-bold uppercase">14:20</p>
-                        </div>
-                    </div>
-
-                    <div class="card p-5 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group">
-                        <div class="flex items-center gap-5">
-                            <div class="w-14 h-14 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center">
-                                <i data-lucide="arrow-down-left" class="w-7 h-7"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-black text-slate-800">Перевод от Алишера</h4>
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Uzcard • <span class="text-slate-500">1109</span></p>
+                            <div class="text-right space-y-1">
+                                <p class="text-lg font-black text-rose-500">-{{ operation.amount }}<span class="text-xs font-normal opacity-60">UZS</span></p>
+                                <p class="text-[10px] text-slate-300 font-bold uppercase">{{ operation.created_at.time }}</p>
                             </div>
                         </div>
-                        <div class="text-right space-y-1">
-                            <p class="text-lg font-black text-emerald-500">+ 250 000 <span class="text-xs font-normal opacity-60">UZS</span></p>
-                            <p class="text-[10px] text-slate-300 font-bold uppercase">09:15</p>
+                        {% else %}
+                        <div class="card p-5 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group">
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center">
+                                    <i data-lucide="arrow-down-left" class="w-7 h-7"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-slate-800">{{ operation.category }}</h4>
+                                    <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">{{ operation.wallet }}<span class="text-slate-500"></span></p>
+                                </div>
+                            </div>
+                            <div class="text-right space-y-1">
+                                <p class="text-lg font-black text-emerald-500">+{{ operation.amount }}<span class="text-xs font-normal opacity-60">UZS</span></p>
+                                <p class="text-[10px] text-slate-300 font-bold uppercase">{{ operation.created_at.time }}</p>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </div>
-
+        </div>
+        <div class="space-y-10">
             <!-- Group: Yesterday -->
             <div class="space-y-4">
                 <div class="flex items-center gap-4 px-2">
                     <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Вчера</h3>
                     <div class="h-px flex-1 bg-slate-100"></div>
                 </div>
-                
-                <div class="space-y-3">
-                    <div class="card p-5 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group">
-                        <div class="flex items-center gap-5">
-                            <div class="w-14 h-14 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center">
-                                <i data-lucide="shopping-bag" class="w-7 h-7"></i>
+                {% for operation in operations %}
+                    {% if operation.created_at|date:"Y-m-d" == today|add:"-1 day" %}
+                        {% if operation.type == 'expense'%}
+                        <div class="card p-5 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group">
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center">
+                                    <i data-lucide="coffee" class="w-7 h-7"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-slate-800">{{ operation.category }}</h4>
+                                    <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">{{ operation.wallet }}<span class="text-slate-500"></span></p>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="font-black text-slate-800">Korzinka.uz</h4>
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Humo • <span class="text-slate-500">8842</span></p>
-                            </div>
-                        </div>
-                        <div class="text-right space-y-1">
-                            <p class="text-lg font-black text-rose-500">- 312 000 <span class="text-xs font-normal opacity-60">UZS</span></p>
-                            <p class="text-[10px] text-slate-300 font-bold uppercase">18:45</p>
-                        </div>
-                    </div>
-
-                    <div class="card p-5 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group">
-                        <div class="flex items-center gap-5">
-                            <div class="w-14 h-14 bg-indigo-50 text-indigo-500 rounded-2xl flex items-center justify-center">
-                                <i data-lucide="zap" class="w-7 h-7"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-black text-slate-800">Оплата электроэнергии</h4>
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Uzcard • <span class="text-slate-500">1109</span></p>
+                            <div class="text-right space-y-1">
+                                <p class="text-lg font-black text-rose-500">-{{ operation.amount }}<span class="text-xs font-normal opacity-60">UZS</span></p>
+                                <p class="text-[10px] text-slate-300 font-bold uppercase">{{ operation.created_at.time }}</p>
                             </div>
                         </div>
-                        <div class="text-right space-y-1">
-                            <p class="text-lg font-black text-rose-500">- 85 000 <span class="text-xs font-normal opacity-60">UZS</span></p>
-                            <p class="text-[10px] text-slate-300 font-bold uppercase">11:30</p>
+                        {% else %}
+                        <div class="card p-5 flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer group">
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center">
+                                    <i data-lucide="arrow-down-left" class="w-7 h-7"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-slate-800">{{ operation.category }}</h4>
+                                    <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">{{ operation.wallet }}<span class="text-slate-500"></span></p>
+                                </div>
+                            </div>
+                            <div class="text-right space-y-1">
+                                <p class="text-lg font-black text-emerald-500">+{{ operation.amount }}<span class="text-xs font-normal opacity-60">UZS</span></p>
+                                <p class="text-[10px] text-slate-300 font-bold uppercase">{{ operation.created_at.time }}</p>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </div>
+        </div>                
 
             <!-- Load More -->
             <button class="w-full py-5 border-2 border-dashed border-slate-200 rounded-[2rem] text-sm font-black text-slate-400 uppercase tracking-widest hover:bg-slate-50 hover:border-[#609988] hover:text-[#609988] transition-all">
@@ -127,16 +143,20 @@
             <div class="space-y-6">
                 <div>
                     <p class="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-1">Поступления</p>
-                    <p class="text-2xl font-black">+ 12 500 000 <span class="text-xs font-normal opacity-40">UZS</span></p>
+                    <p class="text-2xl font-black">+{{ income }}<span class="text-xs font-normal opacity-40">UZS</span></p>
                 </div>
                 <div>
                     <p class="text-[10px] font-black uppercase tracking-widest text-rose-400 mb-1">Расходы</p>
-                    <p class="text-2xl font-black">- 4 230 000 <span class="text-xs font-normal opacity-40">UZS</span></p>
+                    <p class="text-2xl font-black">- {{ expense }} <span class="text-xs font-normal opacity-40">UZS</span></p>
                 </div>
                 <div class="pt-6 border-t border-white/10">
                     <div class="flex justify-between items-center">
                         <span class="text-xs font-bold opacity-60">Чистая прибыль</span>
-                        <span class="text-lg font-black text-[#609988]">+ 8 270 000</span>
+                        {% if profit >= 0 %}
+                            <span class="text-lg font-black text-[#609988]">+{{ profit }}</span>
+                        {% else %}
+                            <span class="text-lr font-black text-rose-500">{{ profit }}</span>
+                        {% endif %}
                     </div>
                 </div>
             </div>

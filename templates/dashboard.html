@@ -13,9 +13,11 @@
             <button class="bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors flex items-center gap-2">
                 <i data-lucide="download" class="w-4 h-4"></i> Выгрузить отчет
             </button>
-            <button class="bg-[#609988] px-4 py-2 rounded-xl text-sm font-semibold text-white hover:bg-[#4d7a6d] transition-colors flex items-center gap-2 shadow-lg shadow-teal-900/10">
-                <i data-lucide="plus" class="w-4 h-4"></i> Добавить расход
-            </button>
+            <a href="{% url 'finance:add-expense' %}">
+                <button class="bg-[#609988] px-4 py-2 rounded-xl text-sm font-semibold text-white hover:bg-[#4d7a6d] transition-colors flex items-center gap-2 shadow-lg shadow-teal-900/10">
+                    <i data-lucide="plus" class="w-4 h-4"></i> Добавить расход
+                </button>
+            </a>
         </div>
     </div>
 

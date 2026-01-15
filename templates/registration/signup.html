@@ -61,9 +61,9 @@
                 </div>
 
                 <div class="flex items-start gap-3 px-1 py-2">
-                    <input type="checkbox" id="terms" class="mt-1 w-4 h-4 rounded-lg border-slate-200 text-[#609988] focus:ring-[#609988]/20">
+                    <input type="checkbox" name="agree" id="terms" required class="mt-1 w-4 h-4 rounded-lg border-slate-200 text-[#609988] focus:ring-[#609988]/20">
                     <label for="terms" class="text-xs text-slate-500 font-medium">
-                        Я согласен с <a href="#" class="text-[#609988] font-bold">Условиями использования</a> и <a href="#" class="text-[#609988] font-bold">Политикой конфиденциальности</a>
+                        Я согласен с <a href="{% url 'user:terms' %}" class="text-[#609988] font-bold">Условиями использования</a> и <a href="{% url 'user:privacy' %}" class="text-[#609988] font-bold">Политикой конфиденциальности</a>
                     </label>
                 </div>
 

@@ -1,0 +1,172 @@
+
+{% extends "base.html" %}
+
+{% block title %}Добавить счет - MyBudget{% endblock %}
+{% block page_title %}Новый счет{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Header with Back Button -->
+    <div class="mb-8 flex items-center justify-between">
+        <a href="{% url 'finance:accounts' %}" class="inline-flex items-center gap-2 text-sm font-black text-slate-400 uppercase tracking-widest hover:text-[#609988] transition-colors">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            Назад к счетам
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <!-- Left: Preview -->
+        <div class="lg:col-span-5 space-y-6">
+            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] px-2">Предпросмотр</h4>
+            
+            <!-- Dynamic Card Preview -->
+            <div id="card-preview" class="relative group h-60 w-full overflow-hidden rounded-[2.5rem] shadow-xl transition-all duration-500 bg-gradient-to-br from-slate-800 to-slate-900">
+                <div class="absolute inset-0 bg-white/5 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="relative p-8 text-white h-full flex flex-col justify-between">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p id="preview-type" class="text-[10px] font-black uppercase tracking-widest opacity-60 mb-1">Тип счета</p>
+                            <h4 id="preview-name" class="text-xl font-bold">Название счета</h4>
+                        </div>
+                        <div id="preview-icon" class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-md">
+                            <i data-lucide="credit-card" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <p class="text-[10px] font-black uppercase tracking-widest opacity-40">Текущий баланс</p>
+                        <p class="text-3xl font-black"><span id="preview-balance">0</span> <span class="text-xs font-normal opacity-60 uppercase">uzs</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-6 bg-amber-50 border-amber-100">
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 shrink-0">
+                        <i data-lucide="info" class="w-5 h-5"></i>
+                    </div>
+                    <p class="text-xs text-amber-800 leading-relaxed font-medium">
+                        Вы можете настроить автоматическую синхронизацию транзакций после создания счета в настройках интеграции.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Form -->
+        <div class="lg:col-span-7">
+            <div class="card p-10">
+                <form class="space-y-8">
+                    <!-- Type Selection -->
+                    <div class="space-y-4">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Тип кошелька</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <button type="button" onclick="updateType('CARD', 'credit-card', 'from-indigo-600 to-slate-900')" class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-white border-2 border-[#609988] text-[#609988] transition-all">
+                                <i data-lucide="credit-card" class="w-5 h-5"></i>
+                                <span class="text-[9px] font-black uppercase">Карта</span>
+                            </button>
+                            <button type="button" onclick="updateType('CASH', 'banknote', 'from-emerald-500 to-teal-700')" class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-50 border-2 border-transparent text-slate-400 hover:border-slate-200 transition-all">
+                                <i data-lucide="banknote" class="w-5 h-5"></i>
+                                <span class="text-[9px] font-black uppercase">Наличные</span>
+                            </button>
+                            <button type="button" onclick="updateType('WALLET', 'wallet', 'from-orange-400 to-rose-500')" class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-50 border-2 border-transparent text-slate-400 hover:border-slate-200 transition-all">
+                                <i data-lucide="wallet" class="w-5 h-5"></i>
+                                <span class="text-[9px] font-black uppercase">E-Кошелек</span>
+                            </button>
+                            <button type="button" onclick="updateType('SAVINGS', 'piggy-bank', 'from-blue-500 to-indigo-700')" class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-50 border-2 border-transparent text-slate-400 hover:border-slate-200 transition-all">
+                                <i data-lucide="piggy-bank" class="w-5 h-5"></i>
+                                <span class="text-[9px] font-black uppercase">Сбережения</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Details -->
+                    <div class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Название счета</label>
+                            <input type="text" id="input-name" placeholder="Напр: Основная карта Humo" oninput="syncName(this.value)" class="w-full p-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Начальный баланс</label>
+                                <div class="relative group">
+                                    <input type="number" id="input-balance" placeholder="0" oninput="syncBalance(this.value)" class="w-full p-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
+                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black text-slate-300">UZS</span>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Валюта</label>
+                                <select class="w-full p-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 outline-none">
+                                    <option>UZS (Soms)</option>
+                                    <option>USD (Dollar)</option>
+                                    <option>EUR (Euro)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Color Picker -->
+                    <div class="space-y-4">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Цветовая тема</label>
+                        <div class="flex gap-3">
+                            <button type="button" onclick="updateColor('from-slate-800 to-slate-900')" class="w-8 h-8 rounded-full bg-slate-800 border-2 border-white shadow-sm ring-2 ring-slate-800"></button>
+                            <button type="button" onclick="updateColor('from-[#609988] to-[#3a5e54]')" class="w-8 h-8 rounded-full bg-[#609988] border-2 border-white shadow-sm hover:ring-2 hover:ring-[#609988] transition-all"></button>
+                            <button type="button" onclick="updateColor('from-indigo-600 to-blue-800')" class="w-8 h-8 rounded-full bg-indigo-600 border-2 border-white shadow-sm hover:ring-2 hover:ring-indigo-600 transition-all"></button>
+                            <button type="button" onclick="updateColor('from-rose-500 to-orange-600')" class="w-8 h-8 rounded-full bg-rose-500 border-2 border-white shadow-sm hover:ring-2 hover:ring-rose-500 transition-all"></button>
+                            <button type="button" onclick="updateColor('from-amber-400 to-orange-500')" class="w-8 h-8 rounded-full bg-amber-400 border-2 border-white shadow-sm hover:ring-2 hover:ring-amber-400 transition-all"></button>
+                            <button type="button" onclick="updateColor('from-emerald-600 to-teal-800')" class="w-8 h-8 rounded-full bg-emerald-600 border-2 border-white shadow-sm hover:ring-2 hover:ring-emerald-600 transition-all"></button>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="pt-6 flex gap-4">
+                        <button type="submit" class="flex-1 bg-[#609988] text-white py-5 rounded-[2rem] font-black text-xs uppercase tracking-widest shadow-xl shadow-teal-900/20 hover:bg-[#4d7a6d] transition-all">
+                            Создать счет
+                        </button>
+                        <button type="button" class="px-10 py-5 bg-slate-100 text-slate-500 rounded-[2rem] font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">
+                            Отмена
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function syncName(val) {
+        document.getElementById('preview-name').innerText = val || 'Название счета';
+    }
+
+    function syncBalance(val) {
+        const formatted = new Intl.NumberFormat('ru-RU').format(val || 0);
+        document.getElementById('preview-balance').innerText = formatted;
+    }
+
+    function updateType(label, iconName, gradient) {
+        document.getElementById('preview-type').innerText = label;
+        const iconContainer = document.getElementById('preview-icon');
+        iconContainer.innerHTML = `<i data-lucide="${iconName}" class="w-5 h-5"></i>`;
+        lucide.createIcons();
+        updateColor(gradient);
+        
+        // Update selection UI
+        const buttons = document.querySelectorAll('button[onclick^="updateType"]');
+        buttons.forEach(btn => {
+            btn.classList.remove('border-[#609988]', 'text-[#609988]', 'bg-white');
+            btn.classList.add('bg-slate-50', 'border-transparent', 'text-slate-400');
+        });
+        event.currentTarget.classList.add('border-[#609988]', 'text-[#609988]', 'bg-white');
+        event.currentTarget.classList.remove('bg-slate-50', 'border-transparent', 'text-slate-400');
+    }
+
+    function updateColor(gradientClass) {
+        const preview = document.getElementById('card-preview');
+        // Remove existing gradient classes
+        preview.className = preview.className.replace(/from-\S+ to-\S+/g, '');
+        preview.classList.add(...gradientClass.split(' '));
+    }
+</script>
+{% endblock %}
