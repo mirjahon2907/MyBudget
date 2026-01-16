@@ -55,25 +55,26 @@
         <!-- Right: Form -->
         <div class="lg:col-span-7">
             <div class="card p-10">
-                <form class="space-y-8">
+                <form method="post" class="space-y-8">
                     {% csrf_token %}
                     <!-- Type Selection -->
                     <div class="space-y-4">
+                        <input type="hidden" name="type" id="input-type" value="card">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Тип кошелька</label>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                            <button type="button" name="card" onclick="updateType('CARD', 'credit-card', 'from-indigo-600 to-slate-900')" class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-white border-2 border-[#609988] text-[#609988] transition-all">
+                            <button type="button" name="card" onclick="updateType(this,'CARD', 'credit-card', 'from-indigo-600 to-slate-900','card')" class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-white border-2 border-[#609988] text-[#609988] transition-all">
                                 <i data-lucide="credit-card" class="w-5 h-5"></i>
                                 <span class="text-[9px] font-black uppercase">Карта</span>
                             </button>
-                            <button type="button" name="cash" onclick="updateType('CASH', 'banknote', 'from-emerald-500 to-teal-700')" class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-50 border-2 border-transparent text-slate-400 hover:border-slate-200 transition-all">
+                            <button type="button" name="cash" onclick="updateType(this,'CASH', 'banknote', 'from-emerald-500 to-teal-700','cash')" class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-50 border-2 border-transparent text-slate-400 hover:border-slate-200 transition-all">
                                 <i data-lucide="banknote" class="w-5 h-5"></i>
                                 <span class="text-[9px] font-black uppercase">Наличные</span>
                             </button>
-                            <button type="button" name="e-wallet" onclick="updateType('WALLET', 'wallet', 'from-orange-400 to-rose-500')" class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-50 border-2 border-transparent text-slate-400 hover:border-slate-200 transition-all">
+                            <button type="button" name="e-wallet" onclick="updateType(this,'WALLET', 'wallet', 'from-orange-400 to-rose-500','e-wallet')" class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-50 border-2 border-transparent text-slate-400 hover:border-slate-200 transition-all">
                                 <i data-lucide="wallet" class="w-5 h-5"></i>
                                 <span class="text-[9px] font-black uppercase">E-Кошелек</span>
                             </button>
-                            <button type="button" name="Savings" onclick="updateType('SAVINGS', 'piggy-bank', 'from-blue-500 to-indigo-700')" class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-50 border-2 border-transparent text-slate-400 hover:border-slate-200 transition-all">
+                            <button type="button" name="Saving" onclick="updateType(this,'SAVING', 'piggy-bank', 'from-blue-500 to-indigo-700','Saving')" class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-50 border-2 border-transparent text-slate-400 hover:border-slate-200 transition-all">
                                 <i data-lucide="piggy-bank" class="w-5 h-5"></i>
                                 <span class="text-[9px] font-black uppercase">Сбережения</span>
                             </button>
@@ -84,14 +85,14 @@
                     <div class="space-y-6">
                         <div class="space-y-2">
                             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Название счета</label>
-                            <input type="text" id="input-name" placeholder="Напр: Основная карта Humo" oninput="syncName(this.value)" class="w-full p-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
+                            <input type="text" name="title" id="input-name" placeholder="Напр: Основная карта Humo" oninput="syncName(this.value)" class="w-full p-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Начальный баланс</label>
                                 <div class="relative group">
-                                    <input type="number" id="input-balance" placeholder="0" oninput="syncBalance(this.value)" class="w-full p-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
+                                    <input type="number" name="balance" min="0" step="1000" id="input-balance" placeholder="0" oninput="syncBalance(this.value)" class="w-full p-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-[#609988]/20 transition-all outline-none">
                                     <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black text-slate-300">UZS</span>
                                 </div>
                             </div>
@@ -99,8 +100,6 @@
                                 <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Валюта</label>
                                 <select class="w-full p-4 bg-slate-50 border-none rounded-2xl text-sm font-bold text-slate-700 outline-none">
                                     <option>UZS (Soms)</option>
-                                    <option>USD (Dollar)</option>
-                                    <option>EUR (Euro)</option>
                                 </select>
                             </div>
                         </div>
@@ -124,9 +123,11 @@
                         <button type="submit" class="flex-1 bg-[#609988] text-white py-5 rounded-[2rem] font-black text-xs uppercase tracking-widest shadow-xl shadow-teal-900/20 hover:bg-[#4d7a6d] transition-all">
                             Создать счет
                         </button>
+                        <a href="{% url 'finance:accounts' %}">
                         <button type="button" class="px-10 py-5 bg-slate-100 text-slate-500 rounded-[2rem] font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">
                             Отмена
                         </button>
+                        </a>
                     </div>
                 </form>
             </div>
@@ -146,11 +147,14 @@
         document.getElementById('preview-balance').innerText = formatted;
     }
 
-    function updateType(label, iconName, gradient) {
+    function updateType(btn,label, iconName, gradient, value) {
         document.getElementById('preview-type').innerText = label;
+        document.getElementById('input-type').value = value;
+
         const iconContainer = document.getElementById('preview-icon');
         iconContainer.innerHTML = `<i data-lucide="${iconName}" class="w-5 h-5"></i>`;
         lucide.createIcons();
+
         updateColor(gradient);
         
         // Update selection UI
@@ -159,8 +163,9 @@
             btn.classList.remove('border-[#609988]', 'text-[#609988]', 'bg-white');
             btn.classList.add('bg-slate-50', 'border-transparent', 'text-slate-400');
         });
-        event.currentTarget.classList.add('border-[#609988]', 'text-[#609988]', 'bg-white');
-        event.currentTarget.classList.remove('bg-slate-50', 'border-transparent', 'text-slate-400');
+
+        btn.classList.add('border-[#609988]', 'text-[#609988]', 'bg-white');
+        btn.classList.remove('bg-slate-50', 'border-transparent', 'text-slate-400');
     }
 
     function updateColor(gradientClass) {
