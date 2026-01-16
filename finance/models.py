@@ -7,7 +7,7 @@ class Wallet(models.Model):
         ('cash','cash'),
         ('card','card'),
         ('e-wallet','e-wallet'),
-        ('Saving','Saving'),
+        ('saving','saving'),
     ]
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='wallets')

@@ -49,7 +49,7 @@ class DashboardView(LoginRequiredMixin, View):
         analyze_profit = analyze_income - analyze_expense
 
         rows = (tx.filter(type="expense")
-                  .values("category__name")
+                  .values("category__name", "category__icon")
                   .annotate(total=Sum("amount"))
                   .order_by("-total"))
 
@@ -61,6 +61,7 @@ class DashboardView(LoginRequiredMixin, View):
             percent = (r["total"] / total_sum * 100) if total_sum else 0
             segments.append({
                 "name": r["category__name"],
+                "icon": r["category__icon"],
                 "amount": r["total"],
                 "percent": round(percent, 2),
                 "dasharray": f"{round(percent, 2)} 100",
@@ -150,18 +151,21 @@ class NewWalletView(LoginRequiredMixin,View):
         return render(request, 'new_wallet.html')
     
     def post(self, request):
+        print("POST:", request.POST)
         name = (request.POST.get("title") or "").strip()
         type_p = (request.POST.get("type") or "card").strip().lower()
         balance_raw = (request.POST.get("balance") or "0").strip()
+
+        print("TYPE:", type_p)
+
+
 
         if not name:
             return render(request, "new_wallet.html", {
                 "error": "Название счета обязательно."
             })
 
-        allowed_types = {"cash", "card", "e-wallet",'Savings'}
-        if type_p not in allowed_types:
-            type_p = "card"
+        allowed_types = {"cash", "card", "e-wallet",'Saving'}
 
         try:
             balance = Decimal(balance_raw)
@@ -169,7 +173,7 @@ class NewWalletView(LoginRequiredMixin,View):
             balance = Decimal("0.00")
 
         Wallet.objects.create(
-            owner=request.user,
+            user=request.user,
             name=name,
             type=type_p,
             balance=balance
