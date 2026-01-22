@@ -18,6 +18,7 @@ def logout_view(request):
     logout(request)
     return redirect("user:login") 
 
+
 class ProfileView(View):
     def get(self,request,username):
         user = get_object_or_404(CustomUser, username=username)
